@@ -1,0 +1,10 @@
+{% for comment in latest_comments %}
+<p><span>{{ comment.name }}</span> commented on</p>
+
+<h4><a href="{{ comment.post.get_absolute_url }}">{{ comment.post.title }}</a></h4>
+
+<p style="margin-bottom:12px;">{{ comment.created }}</p>
+{% endfor %}
+
+
+

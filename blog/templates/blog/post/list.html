@@ -1,0 +1,92 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Just Blog{% endblock title %}
+{% block css %}
+{{ block.super }}
+<style>
+.mya {
+    color:#666;
+    font-size:0.8em;
+    font-family:'Monda', sans-serif;
+}
+.mya:hover {
+    color: #EB7F1A;
+}
+.mya_two {
+    color:#666;
+    font-size:0.8em;
+    font-family:'Monda', sans-serif;
+}
+.myb {
+    color:#666;
+    font-size:1em;
+    font-family:'Monda', sans-serif;
+}
+.myb:hover {
+    color: #EB7F1A;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+
+{% if tag %}
+<h3 style="color: #666; font-size: 30px;">Posts tagged with "{{ tag.name }}" ...</h3>
+{% endif %}
+
+{% for post in posts %}
+			<div class="box1">
+   				 <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+					<span>By {{ post.author }} - {{ post.publish }}
+                        {% with comments.count as total_comments %}
+                         <span class="comments">{{ total_comments }} comment{{ total_comments|pluralize }}</span>
+                        {% endwith %}
+
+                        <span style="color: #666;" class="comments">Tags: {% for tag in post.tags.all %}
+                        <a class="myb" href="{% url "blog:post_list_by_tag" tag.slug %}">{{ tag.name }}</a>
+                        {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                            </span>
+                     </span>
+			   <div class="view">
+					<div class="view-back">
+						<span class="views" title="views">{{ total_views }}</span>
+					<!--<span class="likes" title="likes">(124)</span>
+						<span class="link" title="link">(24)</span>-->
+						<a href="{{ post.get_absolute_url }}"> </a>
+					</div>
+					<a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}"></a>
+				</div>
+				<div class="data">
+				    <p>{{ post.body|truncatechars_html:800|linebreaks }}</p>
+				    <span><a href="{{ post.get_absolute_url }}">Continue reading >>></a></span>
+                    <p class="tags"></p>
+				</div>
+			<div class="clear"></div>
+		</div>
+{% endfor %}
+
+<div class="page_links">
+	<div class="page_numbers">
+		<ul>
+			<li>
+				{% if posts.has_previous %}
+                  <a class="mya" href="?page={{ page.previous_page_number }}">Previous</a>
+                {% endif %}
+                <span class="mya_two">
+                  Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+                </span>
+                {% if posts.has_next %}
+                  <a class="mya" href="?page={{ posts.next_page_number }}">Next</a>
+                {% endif %}
+			</li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+	<div style="margin-top:5px;" class="page_bottom">
+		<p>Back To : <a href="#">Top</a> |  <a href="{% url "blog:post_list" %}">Home</a></p>
+	</div>
+</div>
+
+{% endblock content %}

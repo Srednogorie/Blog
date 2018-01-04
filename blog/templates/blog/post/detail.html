@@ -1,0 +1,78 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+
+<!--------------------- Main Content ------------------->
+<div class="box1">
+	<h3>{{ post.title }}</h3>
+	<span>By {{ post.author }} - {{ post.publish }}
+        {% with comments.count as total_comments %}
+        <span class="comments"><a href="#internal" style="color:#EB7F1A;">{{ total_comments }} comment{{ total_comments|pluralize }}</a></span>
+        {% endwith %}
+    </span>
+	<div class="blog-img">
+		<div class="view-back">
+			<span class="views" title="views">{{ total_views }}</span>
+            <!--
+            <span class="likes" title="likes">(124)</span>
+			<span class="link" title="link">(24)</span>
+			-->
+		</div>
+		<img src="{{ post.image.url }}">
+	</div>
+	<div class="blog-data">
+		<p>{{ post.body|linebreaks }}</p>
+	</div>
+	<div class="clear"></div>
+</div>
+<!----------------  Comment Area -------------------->
+<div class="comments-area" id="commentplace">
+    {% if new_comment %}
+    <h3>Your comment has been added</h3>
+    {% else %}
+	<h3><img src="{% static "blog/images/r-blog.png" %}" title="comment">Leave a comment</h3>
+	<form id="myidname" action="." method="post">
+        {{ comment_form.as_p }}
+        {% csrf_token %}
+		<p>
+			<input type="submit" value="Post">
+		</p>
+	</form>
+    {% endif %}
+</div>
+
+<div class="box comment" id="internal">
+	<h2>
+        {% with comments.count as total_comments %}
+        {% if not comments.count %}
+        <span id="spanone">There are no comments yet</span>
+        {% else %}
+        <span id="spantwo">{{ total_comments }} Comment{{ total_comments|pluralize }} so far</span>
+        {% endif %}
+        {% endwith %}
+    </h2>
+    {% for comment in comments %}
+	    <ul class="list" id="li_comment">
+	        <li>
+	            <div class="preview"><img src="{% static "blog/images/mike.png" %}" alt=""></div>
+	            <div class="data">
+	                <div class="title">{{ comment.name }}<a>{{ comment.created }}</a></div>
+	                <p>{{ comment.body }}</p>
+	            </div>
+	            <div class="clear"></div>
+	        </li>
+	    </ul>
+    {% endfor %}
+    <div style="margin-top:5px;" class="page_bottom" >
+		<p>Back To : <a href="#">Top</a> |  <a href="{% url "blog:post_list" %}">Home</a> | <a href="#commentplace">Leave Comment</a></p>
+	</div>
+	<div class="clear"></div>
+    <!--  id="{% if active_tab == 'myanchor' %}myanchor{% endif %}" -->
+</div>
+
+
+
+{% endblock content %}

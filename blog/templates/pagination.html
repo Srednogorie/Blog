@@ -1,0 +1,25 @@
+
+<style>
+
+a:hover {
+    color: #EB7F1A;
+}
+</style>
+
+
+
+
+
+
+    {% if page.has_previous %}
+      <a style="color:#666; font-size:0.8em; font-family:'Monda', sans-serif;"
+         href="?page={{ page.previous_page_number }}">Previous</a>
+    {% endif %}
+    <span style="color:#666; font-size:0.8em; font-family:'Monda', sans-serif;">
+        Page {{ page.number }} of {{ page.paginator.num_pages }}
+    </span>
+      {% if page.has_next %}
+        <a style="color:#666; font-size:0.8em; font-family:'Monda', sans-serif;"
+           href="?page={{ page.next_page_number }}">Next</a>
+      {% endif %}
+

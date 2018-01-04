@@ -1,0 +1,7 @@
+{% for post in latest_posts %}
+<img src="{{ post.image.url }}" title="{{ post.title }}" alt=""/>
+
+<p>{{ post.title|truncatechars_html:100 }}<a href="{{ post.get_absolute_url }}">[...]</a></p>
+
+<div class="clear"> </div>
+{% endfor %}

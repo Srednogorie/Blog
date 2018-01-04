@@ -1,0 +1,6 @@
+<div class="signup">
+    <form id="myidemail" action="{% url "blog:email_sign" %}" method="post">
+        {{ email_form.as_p }} {% csrf_token %} <input type="submit" value="Sign up">
+					<!-- <input type="text" value="Enter your e-mail" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter your e-mail here';"><input type="submit" value="Sign up"> -->
+    </form>
+</div>
